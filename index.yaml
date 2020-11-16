@@ -3,6 +3,24 @@ entries:
   zookeeper:
   - apiVersion: v1
     appVersion: 3.4.14
+    created: "2020-11-16T00:40:32.962155952Z"
+    description: A centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services for distributed applications.
+    digest: 2672268939c7962d614fe8f7c66ab3a8d53f8ba6102aef4ba0fe48a6ff045dae
+    home: https://zookeeper.apache.org/
+    icon: https://bitnami.com/assets/stacks/zookeeper/img/zookeeper-stack-110x117.png
+    keywords:
+    - zookeeper
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: zookeeper
+    sources:
+    - https://github.com/bitnami/bitnami-docker-zookeeper
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/zookeeper-2.2.4/zookeeper-2.2.4.tgz
+    version: 2.2.4
+  - apiVersion: v1
+    appVersion: 3.4.14
     created: "2020-11-16T00:30:42.064958965Z"
     description: A centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services for distributed applications.
     digest: b731b9023210a539e3b752e9ee1572db51e50c5d608a3a3003c5071334e25bd2
