@@ -115,7 +115,7 @@ spec:
               port: {{ .Values.port }}
           volumeMounts:
             - name: {{ template "solr.pvc-name" . }}
-              mountPath: /opt/solr/server/data/solr
+              mountPath: /opt/solr/data
   volumeClaimTemplates:
     - metadata:
         name: {{ template "solr.pvc-name" . }}
