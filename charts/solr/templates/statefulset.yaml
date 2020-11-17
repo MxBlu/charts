@@ -1,0 +1,128 @@
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "solr.fullname" . }}
+  labels:
+{{ include "solr.common.labels" . | indent 4 }}
+    component: server
+spec:
+  selector:
+    matchLabels:
+      app: "{{ template "solr.name" . }}"
+      release: "{{ .Release.Name }}"
+      component: "server"
+  serviceName: {{ template "solr.headless-service-name" . }}
+  replicas: {{ .Values.replicaCount }}
+  updateStrategy:
+    {{ toYaml .Values.updateStrategy | indent 4}}
+  template:
+    metadata:
+      labels:
+        app: "{{ template "solr.name" . }}"
+        release: "{{ .Release.Name }}"
+        component: "server"
+      annotations:
+{{ toYaml .Values.podAnnotations | indent 8 }}
+    spec:
+      securityContext:
+        fsGroup: 8983
+      affinity:
+{{ tpl (toYaml .Values.affinity) .  | indent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      volumes:
+        - name: solr-xml
+          configMap:
+            name: {{ template "solr.configmap-name" . }}
+            items:
+            - key: solr.xml
+              path: solr.xml
+      initContainers:
+        - name: check-zk
+          image: busybox:latest
+          command:
+            - 'sh'
+            - '-c'
+            - |
+              COUNTER=0;
+              while [  $COUNTER -lt 120 ]; do
+                for i in {{ $vals := . -}}{{ range $i, $e := until ( int .Values.zookeeper.replicaCount ) -}}
+                  "{{- template "solr.zookeeper-name" $vals }}-{{ $i }}.{{ template "solr.zookeeper-service-name" $vals }}" {{ end -}};
+                  do mode=$(echo srvr | nc $i 2181 | grep "Mode");
+                    if [ "$mode" == "Mode: leader" ] || [ "$mode" == "Mode: standalone" ]; then
+                      exit 0;
+                    fi;
+                  done;
+                let COUNTER=COUNTER+1;
+                sleep 2;
+              done;
+              echo "Did NOT see a ZK leader after 240 secs!";
+              exit 1;
+        - name: "cp-solr-xml"
+          image: busybox:latest
+          command: ['sh', '-c', 'cp /tmp/solr.xml /tmp-config/solr.xml']
+          volumeMounts:
+          - name: "solr-xml"
+            mountPath: "/tmp"
+          - name: "{{ template "solr.pvc-name" . }}"
+            mountPath: "/tmp-config"
+      containers:
+        - name: solr
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          ports:
+          - containerPort: {{ .Values.port }}
+            name: solr-client
+          env:
+            - name: "SOLR_JAVA_MEM"
+              value: "{{ .Values.javaMem }}"
+            - name: "SOLR_DATA_DIR"
+              value: "data"
+            - name: "SOLR_USE_CLOUD"
+              value: "yes"
+            - name: "SOLR_ZK_HOSTS"
+              value: "{{ template "solr.zookeeper-nodes" . }}"
+            - name: "SOLR_PORT"
+              value: "{{ .Values.port }}"
+            - name: "POD_HOSTNAME"
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: "SOLR_HOST"
+              value: "$(POD_HOSTNAME).{{ template "solr.headless-service-name" . }}"
+            - name: "SOLR_LOG_LEVEL"
+              value: "{{ .Values.logLevel }}"
+          livenessProbe:
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            httpGet:
+              scheme: "HTTP"
+              path: /solr/admin/info/system
+              port: {{ .Values.port }}
+          readinessProbe:
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            httpGet:
+              scheme: "HTTP"
+              path: /solr/admin/info/system
+              port: {{ .Values.port }}
+          volumeMounts:
+            - name: {{ template "solr.pvc-name" . }}
+              mountPath: /opt/solr/server/data/solr
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ template "solr.pvc-name" . }}
+        annotations:
+          pv.beta.kubernetes.io/gid: "8983"
+      spec:
+        accessModes:
+{{ toYaml .Values.volumeClaimTemplates.accessModes | indent 10 }}
+{{- if not ( eq .Values.volumeClaimTemplates.storageClassName  "" ) }}
+        storageClassName: "{{ .Values.volumeClaimTemplates.storageClassName }}"
+{{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.volumeClaimTemplates.storageSize }}

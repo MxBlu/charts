@@ -1,0 +1,67 @@
+---
+
+# Which port should solr listen on
+port: 8983
+
+# Number of solr instances to run
+replicaCount: 3
+
+# Settings for solr java memory
+javaMem: "-Xms2g -Xmx3g"
+
+# Set the limits and requests on solr pod resources
+resources: {}
+
+# Sets the termination Grace period for the solr pods
+# This can take a while for shards to elect new leaders
+terminationGracePeriodSeconds: 180
+
+# Solr image settings
+image:
+  repository: solr
+  tag: 4.4.0
+  pullPolicy: Always
+
+# Solr pod liveness
+livenessProbe:
+  initialDelaySeconds: 20
+  periodSeconds: 10
+
+# Solr pod readiness
+readinessProbe:
+  initialDelaySeconds: 15
+  periodSeconds: 5
+
+# Annotations to apply to the solr pods
+podAnnotations: {}
+
+# Affinity group rules or the solr pods
+affinity: {}
+
+# Update Strategy for solr pods
+updateStrategy:
+  type: "OnDelete"
+
+# The log level of the Solr instances
+logLevel: "INFO"
+
+# Solr pod disruption budget
+podDisruptionBudget:
+  maxUnavailable: 1
+
+# Configuration for the solr PVC
+volumeClaimTemplates:
+  storageClassName: ""
+  storageSize: "20Gi"
+  accessModes:
+    - "ReadWriteOnce"
+
+# Configuration for the solr service
+service:
+  type: ClusterIP
+  annotations: {}
+
+# Zookeeper config
+zookeeper:
+  serviceName: "zookeeper" # Name of the helm service containing Zookeeper
+  replicaCount: 3
