@@ -3,6 +3,23 @@ entries:
   solr:
   - apiVersion: v1
     appVersion: 4.10.4
+    created: "2020-11-17T08:25:39.785186163Z"
+    description: A helm chart to install solr
+    digest: 5f6ca8e56615f13407e1c9d96e80986d81c7a0dcb6a658799a067067a256ac2d
+    home: http://lucene.apache.org/solr/
+    keywords:
+    - solr
+    maintainers:
+    - email: ian.thebridge@lucidworks.com
+      name: Ian Thebridge
+    name: solr
+    sources:
+    - https://gitbox.apache.org/repos/asf?p=lucene-solr.git
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/solr-1.0.2/solr-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: 4.10.4
     created: "2020-11-17T08:07:54.787421141Z"
     description: A helm chart to install solr
     digest: 43a408e3dc1f0e21f53bf0049ea1de4ef6ce104c93ab8015c9abd1f3d26fda6d
