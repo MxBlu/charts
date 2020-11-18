@@ -16,7 +16,13 @@ spec:
   serviceName: {{ template "solr.headless-service-name" . }}
   replicas: {{ .Values.replicaCount }}
   updateStrategy:
-    {{ toYaml .Values.updateStrategy | indent 4}}
+    type: {{ .Values.updateStrategy }}
+    {{- if (eq "Recreate" .Values.updateStrategy) }}
+    rollingUpdate: null
+    {{- else if .Values.rollingUpdatePartition }}
+    rollingUpdate:
+      partition: {{ .Values.rollingUpdatePartition }}
+    {{- end }}
   template:
     metadata:
       labels:

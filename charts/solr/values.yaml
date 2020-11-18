@@ -39,8 +39,10 @@ podAnnotations: {}
 affinity: {}
 
 # Update Strategy for solr pods
-updateStrategy:
-  type: "OnDelete"
+updateStrategy: RollingUpdate
+
+# Management policy
+podManagementPolicy: Parallel
 
 # The log level of the Solr instances
 logLevel: "INFO"
