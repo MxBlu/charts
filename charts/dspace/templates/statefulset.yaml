@@ -57,9 +57,9 @@ spec:
         - '-c'
         - |
           cd /dspace/config
-          {{ if .Values.configLoadCommand -}}
+          {{ if .Values.config.loadCommand -}}
           # Get configuration from external store
-{{ .Values.configLoadCommand | indent 10 }}
+{{ .Values.config.loadCommand | indent 10 }}
           {{- end -}}
           # Replace default db connection settings with cluster ones
           sed -i s/jdbc:postgresql:\/\/dspacedb:5432\/dspace/{{ template "dspace.pg-url" . }}/g local.cfg
@@ -91,9 +91,18 @@ spec:
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
         {{- end }}
+    {{- if .Values.config.loadSecret }}
         volumeMounts:
         - name: assetstore
           mountPath: /dspace/assetstore
+        - name: loadSecret
+          mountPath: /tmp/loadSecret
+          readOnly: true
+    volumes:
+    - name: loadSecret
+      secret:
+        secretName: loadSecret
+    {{- end }}
 {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:

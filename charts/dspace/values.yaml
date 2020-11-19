@@ -23,10 +23,13 @@ podManagementPolicy: Parallel
 ## Number of DSpace nodes
 replicaCount: 3
 
-# Shell commands to load the configuration
-# configLoadCommand: |
-#   apt install git
-#   git clone https://github.com/test/config.git
+config:
+  # Secret name which can contain credentials to load the config
+  loadSecret: null
+  # Shell commands to load the configuration
+  # loadCommand: |
+  #   apt install git
+  #   git clone https://github.com/test/config.git
 
 # Solr service name - accessed via load balancer/service address
 solrService: 
