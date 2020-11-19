@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "dspace.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "dspace.name" . }}
+    helm.sh/chart: {{ template "dspace.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: dspace
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: {{ template "dspace.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: dspace

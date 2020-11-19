@@ -1,0 +1,12 @@
+apiVersion: v1
+name: dspace
+version: 1.0.0
+appVersion: 6.3
+description: Academic data repository
+keywords:
+- dspace
+home: https://duraspace.org/dspace/
+sources:
+- https://github.com/DSpace/DSpace
+maintainers:
+- name: MxBlu

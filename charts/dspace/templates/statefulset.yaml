@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "{{ template "dspace.fullname" . }}"
+  labels:
+    app.kubernetes.io/name: {{ template "dspace.name" . }}
+    helm.sh/chart: {{ template "dspace.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: dspace
+spec:
+  serviceName: {{ template "dspace.fullname" . }}-headless
+  replicas: {{ .Values.replicaCount }}
+  podManagementPolicy: {{ .Values.podManagementPolicy }}
+  updateStrategy:
+    type: {{ .Values.updateStrategy }}
+    {{- if (eq "Recreate" .Values.updateStrategy) }}
+    rollingUpdate: null
+    {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "dspace.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: dspace
+  template:
+    metadata:
+      name: "{{ template "dspace.fullname" . }}"
+      labels:
+        app.kubernetes.io/name: {{ template "dspace.name" . }}
+        helm.sh/chart: {{ template "dspace.chart" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: dspace
+    spec:
+      {{- with .Values.image.imagePullSecrets }}
+      imagePullSecrets: 
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+      {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity: {{ toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: "{{ template "dspace.fullname" . }}"
+        image: "{{ template "dspace.image" . }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command:
+        - 'sh'
+        - '-c'
+        - |
+          cd /dspace/config
+          {{ if .Values.configLoadCommand -}}
+          # Get configuration from external store
+{{ .Values.configLoadCommand | indent 10 }}
+          {{- end -}}
+          # Replace default db connection settings with cluster ones
+          sed -i s/jdbc:postgresql:\/\/dspacedb:5432\/dspace/{{ template "dspace.pg-url" . }}/g local.cfg
+          sed -i s/http:\/\/localhost:8080\/solr/{{ template "dspace.solr-url" . }}/g local.cfg
+          catalina.sh run
+        {{- if .Values.securityContext.enabled }}
+        securityContext:
+          runAsUser: {{ .Values.securityContext.runAsUser }}
+        {{- end }}
+        resources: {{ toYaml .Values.resources | nindent 10 }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.port }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            scheme: "HTTP"
+            path: /xmlui
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+        {{- end }}
+        {{- if .Values.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            scheme: "HTTP"
+            path: /xmlui
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+        {{- end }}
+        volumeMounts:
+        - name: assetstore
+          mountPath: /dspace/assetstore
+{{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: assetstore
+        annotations:
+        {{- range $key, $value := .Values.persistence.annotations }}
+          {{ $key }}: {{ $value }}
+        {{- end }}
+      spec:
+        accessModes:
+        {{- range .Values.persistence.accessModes }}
+          - {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+      {{- if .Values.persistence.storageClass }}
+      {{- if (eq "-" .Values.persistence.storageClass) }}
+        storageClassName: ""
+      {{- else }}
+        storageClassName: {{ .Values.persistence.storageClass | quote }}
+      {{- end }}
+      {{- end }}
+{{- else }}
+        - name: data
+          emptyDir: {}
+{{- end }}
