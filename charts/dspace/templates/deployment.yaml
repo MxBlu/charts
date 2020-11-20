@@ -60,8 +60,8 @@ spec:
 {{ .Values.config.loadCommand | indent 10 }}
           {{- end -}}
           # Replace default db connection settings with cluster ones
-          sed -i s/jdbc:postgresql:\/\/dspacedb:5432\/dspace/{{ template "dspace.pg-url" . }}/g local.cfg
-          sed -i s/http:\/\/localhost:8080\/solr/{{ template "dspace.solr-url" . }}/g local.cfg
+          sed -i 's/jdbc:postgresql:\/\/dspacedb:5432\/dspace/{{ template "dspace.pg-url" . }}/g' local.cfg
+          sed -i 's/http:\/\/localhost:8080\/solr/{{ template "dspace.solr-url" . }}/g' local.cfg
           catalina.sh run
         {{- if .Values.securityContext.enabled }}
         securityContext:
