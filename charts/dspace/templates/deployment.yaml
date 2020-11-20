@@ -85,13 +85,13 @@ spec:
         - name: assetstore
           mountPath: /dspace/assetstore
         {{- if .Values.config.loadSecret }}
-        - name: loadSecret
+        - name: load-secret
           mountPath: /tmp/loadSecret
           readOnly: true
         {{- end }}
       volumes:
       {{- if .Values.config.loadSecret }}
-      - name: loadSecret
+      - name: load-secret
         secret:
           secretName: {{ .Values.config.loadSecret }}
       {{- end }}
