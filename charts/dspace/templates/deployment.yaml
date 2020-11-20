@@ -94,6 +94,7 @@ spec:
       - name: load-secret
         secret:
           secretName: {{ .Values.config.loadSecret }}
+          defaultMode: 0400
       {{- end }}
       - name: assetstore
         {{- if .Values.persistence.enabled }}
