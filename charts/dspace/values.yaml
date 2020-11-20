@@ -67,6 +67,8 @@ persistence:
     - ReadWriteMany
   size: 200Gi
   annotations: {}
+  # Use an existing PersistentVolumeClaim
+  # existingClaim: 
 
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
