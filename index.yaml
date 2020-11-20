@@ -3,6 +3,22 @@ entries:
   dspace:
   - apiVersion: v1
     appVersion: "6.3"
+    created: "2020-11-20T04:31:22.914209704Z"
+    description: Academic data repository
+    digest: 268e45289ab3177911ff3696aed6f8ed303dcac206e76813315eabe2a62a7755
+    home: https://duraspace.org/dspace/
+    keywords:
+    - dspace
+    maintainers:
+    - name: MxBlu
+    name: dspace
+    sources:
+    - https://github.com/DSpace/DSpace
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/dspace-1.0.4/dspace-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v1
+    appVersion: "6.3"
     created: "2020-11-20T04:08:00.963153056Z"
     description: Academic data repository
     digest: 40e573628957da5ae26af88bb1fdc7a3d20eb2c47c9d72d405755eee071c7601
