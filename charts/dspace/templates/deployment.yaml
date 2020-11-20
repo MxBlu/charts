@@ -93,7 +93,7 @@ spec:
       {{- if .Values.config.loadSecret }}
       - name: loadSecret
         secret:
-          secretName: loadSecret
+          secretName: {{ .Values.config.loadSecret }}
       {{- end }}
       - name: assetstore
         {{- if .Values.persistence.enabled }}
