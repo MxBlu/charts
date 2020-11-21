@@ -32,7 +32,7 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Return the proper Zookeeper image name
+Return the proper DSpace image name
 */}}
 {{- define "dspace.image" -}}
 {{- $repositoryName := .Values.image.repository -}}
