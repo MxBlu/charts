@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/component: dspace
 spec:
   replicas: {{ .Values.replicaCount }}
-  strategy: {{ .Values.updateStrategy }}
+  strategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ template "dspace.name" . }}
