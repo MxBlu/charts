@@ -62,10 +62,10 @@ spec:
         env:
         - name: "JAVA_MEM"
           value: "-Xmx{{ .Values.javaMem }}"
-        {{- if .Values.javaOpts }}
+        {{ if .Values.javaOpts -}}
         - name: "JAVA_OPTS"
-          value: {{ .Values.javaOpts }}
-        {{- end -}}
+          value: {{ .Values.javaOpts | quote }}
+        {{ end -}}
         resources: {{ toYaml .Values.resources | nindent 10 }}
         ports:
         - name: http
