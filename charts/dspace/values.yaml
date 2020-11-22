@@ -13,7 +13,9 @@ image:
   # imagePullSecrets:
   #   - name: myRegistryKeySecretName
 
-updateStrategy: RollingUpdate
+# Update strategy for DSpace deployment
+updateStrategy:
+  type: RollingUpdate
 
 podDisruptionBudget:
   maxUnavailable: 1
