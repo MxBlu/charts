@@ -79,13 +79,19 @@ tolerations: []
 ##
 affinity: {}
 
+# JVM Memory allocation
+javaMem: 256Mi
+
+# JVM Opts
+# javaOpts: 
+
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
 resources:
   requests:
-    memory: 2Gi
-    cpu: 750m
+    memory: 256m
+    # cpu: 750m
 
 ## Configure extra options for liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
