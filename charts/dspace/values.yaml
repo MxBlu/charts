@@ -80,7 +80,7 @@ tolerations: []
 affinity: {}
 
 # JVM Memory allocation
-javaMem: 256Mi
+javaMem: 256m
 
 # JVM Opts
 # javaOpts: 
