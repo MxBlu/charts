@@ -70,7 +70,7 @@ spec:
         livenessProbe:
           httpGet:
             scheme: "HTTP"
-            path: /xmlui
+            path: /xmlui/
             port: {{ .Values.service.port }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -79,7 +79,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: "HTTP"
-            path: /xmlui
+            path: /xmlui/
             port: {{ .Values.service.port }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
