@@ -102,8 +102,10 @@ livenessProbe:
   enabled: true
   initialDelaySeconds: 30
   periodSeconds: 10
+  timeoutSeconds: 15
 
 readinessProbe:
   enabled: true
   initialDelaySeconds: 5
   periodSeconds: 10
+  timeoutSeconds: 15
