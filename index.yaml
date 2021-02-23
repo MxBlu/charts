@@ -3,6 +3,22 @@ entries:
   dspace:
   - apiVersion: v1
     appVersion: "6.3"
+    created: "2021-02-23T03:45:06.386633342Z"
+    description: Academic data repository
+    digest: 58cfc47d826c48db195af4108f0cd2334350b70844e77b86207e87a1fd162a89
+    home: https://duraspace.org/dspace/
+    keywords:
+    - dspace
+    maintainers:
+    - name: MxBlu
+    name: dspace
+    sources:
+    - https://github.com/DSpace/DSpace
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/dspace-1.0.18/dspace-1.0.18.tgz
+    version: 1.0.18
+  - apiVersion: v1
+    appVersion: "6.3"
     created: "2021-02-23T03:37:27.958677066Z"
     description: Academic data repository
     digest: e7659429fdf7515ecdfa142da0b8edeb527b887271f172d20a2f325c303f5182
@@ -412,4 +428,4 @@ entries:
     urls:
     - https://github.com/MxBlu/charts/releases/download/zookeeper-2.2.4/zookeeper-2.2.4.tgz
     version: 2.2.4
-generated: "2021-02-23T03:37:27.958819267Z"
+generated: "2021-02-23T03:45:06.386883844Z"
