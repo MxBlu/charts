@@ -54,7 +54,8 @@ spec:
           # Replace default db connection settings with cluster ones
           sed -i 's/jdbc:postgresql:\/\/dspacedb:5432\/dspace/{{ template "dspace.pg-url" . }}/g' local.cfg
           sed -i 's/http:\/\/localhost:8080\/solr/{{ template "dspace.solr-url" . }}/g' local.cfg
-          catalina.sh run
+          catalina.sh run &
+          while inotifywait -q .; do kill $PID; tail -F -n 0 /dspace/log/* & PID=$!; done
         env:
         - name: "JAVA_MEM"
           value: "-Xmx{{ .Values.javaMem }}"
