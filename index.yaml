@@ -3,6 +3,22 @@ entries:
   dspace:
   - apiVersion: v1
     appVersion: "6.3"
+    created: "2021-02-23T03:37:27.958677066Z"
+    description: Academic data repository
+    digest: e7659429fdf7515ecdfa142da0b8edeb527b887271f172d20a2f325c303f5182
+    home: https://duraspace.org/dspace/
+    keywords:
+    - dspace
+    maintainers:
+    - name: MxBlu
+    name: dspace
+    sources:
+    - https://github.com/DSpace/DSpace
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/dspace-1.0.17/dspace-1.0.17.tgz
+    version: 1.0.17
+  - apiVersion: v1
+    appVersion: "6.3"
     created: "2021-02-04T04:36:06.347042428Z"
     description: Academic data repository
     digest: 5a6e0a5b84c74e91ff0da6ee401727819d604aa19c58e875ec483a8473b6bd54
@@ -379,7 +395,9 @@ entries:
   - apiVersion: v1
     appVersion: 3.4.14
     created: "2020-11-16T00:40:32.962155952Z"
-    description: A centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services for distributed applications.
+    description: A centralized service for maintaining configuration information,
+      naming, providing distributed synchronization, and providing group services
+      for distributed applications.
     digest: 2672268939c7962d614fe8f7c66ab3a8d53f8ba6102aef4ba0fe48a6ff045dae
     home: https://zookeeper.apache.org/
     icon: https://bitnami.com/assets/stacks/zookeeper/img/zookeeper-stack-110x117.png
@@ -394,4 +412,4 @@ entries:
     urls:
     - https://github.com/MxBlu/charts/releases/download/zookeeper-2.2.4/zookeeper-2.2.4.tgz
     version: 2.2.4
-generated: "2020-11-16T00:30:41.895316645Z"
+generated: "2021-02-23T03:37:27.958819267Z"
