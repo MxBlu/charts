@@ -46,7 +46,7 @@ spec:
         - 'sh'
         - '-c'
         - |
-          apt update && apt install -y inotifywait
+          apt update && apt install -y inotify-tools
           cd /dspace/config
           {{ if .Values.config.loadCommand -}}
           # Get configuration from external store
