@@ -46,6 +46,7 @@ spec:
         - 'sh'
         - '-c'
         - |
+          apt update && apt install -y inotifywait
           cd /dspace/config
           {{ if .Values.config.loadCommand -}}
           # Get configuration from external store
@@ -70,8 +71,8 @@ spec:
         {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
           httpGet:
-            scheme: "HTTP"
-            path: /xmlui/
+            scheme: {{ .Values.livenessProbe.scheme | default "HTTP" }}
+            path: {{ .Values.livenessProbe.path | default "/xmlui/" }}
             port: {{ .Values.service.port }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -80,8 +81,8 @@ spec:
         {{- if .Values.readinessProbe.enabled }}
         readinessProbe:
           httpGet:
-            scheme: "HTTP"
-            path: /xmlui/
+            scheme: {{ .Values.readinessProbe.scheme | default "HTTP" }}
+            path: {{ .Values.readinessProbe.path | default "/xmlui/" }}
             port: {{ .Values.service.port }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
