@@ -26,6 +26,8 @@ podManagementPolicy: Parallel
 replicaCount: 3
 
 config:
+  # Whether this release is for DSpace 7
+  isDspace7: false
   # Secret name which can contain credentials to load the config
   loadSecret: null
   # Shell commands to load the configuration
