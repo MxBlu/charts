@@ -1,0 +1,5 @@
+** Please be patient while the chart is being deployed **
+
+DSpace Angular can be accessed via port 4000 on the following DNS name from within your cluster:
+
+    {{ template "dspace-angular.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local

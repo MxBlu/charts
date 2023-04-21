@@ -1,0 +1,85 @@
+
+# Chart name override
+# nameOverride: ""
+
+# Chart full name override
+# fullnameOverride: ""
+
+# DSpace Angular image config
+image:
+  repository: dspace/dspace-angular
+  tag: dspace-7_x
+  pullPolicy: Always
+  # imagePullSecrets:
+  #   - name: myRegistryKeySecretName
+
+# Update strategy for DSpace Angular deployment
+updateStrategy:
+  type: RollingUpdate
+
+podDisruptionBudget:
+  maxUnavailable: 1
+
+podManagementPolicy: Parallel
+
+## Number of DSpace Angular nodes
+replicaCount: 3
+
+# Hostname to serve
+hostname: localhost
+# URL path that the UI should serve under
+uiPath: /
+
+dspace:
+  host: dspace
+  port: 8080
+  path: /server
+  ssl: false
+
+# extraEnv:
+
+## Kubernetes configuration
+## For minikube, set this to NodePort, elsewhere use LoadBalancer
+##
+service:
+  type: ClusterIP
+  port: 4000
+  publishNotReadyAddresses: true
+
+## Node labels for pod assignment
+## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
+
+## Tolerations for pod assignment
+## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+## Affinity for pod assignment
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 256m
+    # cpu: 750m
+
+## Configure extra options for liveness and readiness probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+##
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 15
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 15

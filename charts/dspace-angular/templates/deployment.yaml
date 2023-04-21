@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ template "dspace-angular.fullname" . }}"
+  labels:
+    app.kubernetes.io/name: {{ template "dspace-angular.name" . }}
+    helm.sh/chart: {{ template "dspace-angular.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: dspace-angular
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "dspace-angular.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: dspace-angular
+  template:
+    metadata:
+      name: "{{ template "dspace-angular.fullname" . }}"
+      labels:
+        app.kubernetes.io/name: {{ template "dspace-angular.name" . }}
+        helm.sh/chart: {{ template "dspace-angular.chart" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: dspace-angular
+    spec:
+      {{- with .Values.image.imagePullSecrets }}
+      imagePullSecrets: 
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity: {{ toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: "{{ template "dspace-angular.fullname" . }}"
+        image: "{{ template "dspace-angular.image" . }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        env:
+        - name: DSPACE_UI_SSL
+          value: 'false'
+        - name: DSPACE_UI_HOST
+          value: {{ default "0.0.0.0" .Values.hostname | quote }}
+        - name: DSPACE_UI_PORT
+          value: {{ .Values.service.port | quote }}
+        - name: DSPACE_UI_NAMESPACE
+          value: {{ default "/" .Values.uiPath | quote }}
+        - name: DSPACE_REST_SSL
+          value: {{ .Values.dspace.ssl | quote }}
+        - name: DSPACE_REST_HOST
+          value: {{ .Values.dspace.host | quote }}
+        - name: DSPACE_REST_PORT
+          value: {{ .Values.dspace.port | quote }}
+        - name: DSPACE_REST_NAMESPACE
+          value: {{ .Values.dspace.path | quote }}
+          {{- if .Values.extraEnv }}
+          {{- toYaml .Values.extraEnv | nindent 8 }}
+          {{- end }}
+        {{- if .Values.tolerations }}
+        tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
+        {{- end }}
+        resources: {{ toYaml .Values.resources | nindent 10 }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.port }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        {{- end }}
+        {{- if .Values.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: {{ .Values.service.port }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        {{- end }}

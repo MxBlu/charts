@@ -1,0 +1,12 @@
+apiVersion: v1
+name: dspace-angular
+version: 1.0.0
+appVersion: "7.5"
+description: Academic data repository - Web UI
+keywords:
+- dspace
+home: https://github.com/DSpace/dspace-angular/
+sources:
+- https://github.com/DSpace/dspace-angular
+maintainers:
+- name: MxBlu
