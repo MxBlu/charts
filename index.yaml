@@ -353,6 +353,23 @@ entries:
     urls:
     - https://github.com/MxBlu/charts/releases/download/dspace-1.0.0/dspace-1.0.0.tgz
     version: 1.0.0
+  dspace-angular:
+  - apiVersion: v1
+    appVersion: "7.5"
+    created: "2023-04-21T06:30:18.626149895Z"
+    description: Academic data repository - Web UI
+    digest: d250377189bb3610a24e28e8faa6b264be2117ec3ab6b9b7d8f82e30f38af7fb
+    home: https://github.com/DSpace/dspace-angular/
+    keywords:
+    - dspace
+    maintainers:
+    - name: MxBlu
+    name: dspace-angular
+    sources:
+    - https://github.com/DSpace/dspace-angular
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/dspace-angular-1.0.0/dspace-angular-1.0.0.tgz
+    version: 1.0.0
   solr:
   - apiVersion: v1
     appVersion: 4.10.4
@@ -476,4 +493,4 @@ entries:
     urls:
     - https://github.com/MxBlu/charts/releases/download/zookeeper-2.2.4/zookeeper-2.2.4.tgz
     version: 2.2.4
-generated: "2023-02-28T04:10:00.896620174Z"
+generated: "2023-04-21T06:30:18.626205795Z"
