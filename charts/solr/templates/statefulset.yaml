@@ -89,6 +89,10 @@ spec:
           env:
             - name: "SOLR_JAVA_MEM"
               value: "{{ .Values.javaMem }}"
+            {{ if .Values.javaOpts -}}
+            - name: "SOLR_OPTS"
+              value: {{ .Values.javaOpts | quote }}
+            {{ end -}}
             - name: "SOLR_DATA_DIR"
               value: "data"
             - name: "SOLR_USE_CLOUD"
