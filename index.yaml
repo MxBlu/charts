@@ -3,6 +3,22 @@ entries:
   dspace:
   - apiVersion: v1
     appVersion: "6.3"
+    created: "2023-06-08T09:54:23.882580527Z"
+    description: Academic data repository
+    digest: 02bc162504e7c138a179797a64dc9eab9760c86eba7bfba1f64c13bdfc7d5bc7
+    home: https://duraspace.org/dspace/
+    keywords:
+    - dspace
+    maintainers:
+    - name: MxBlu
+    name: dspace
+    sources:
+    - https://github.com/DSpace/DSpace
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/dspace-2.0.0/dspace-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: "6.3"
     created: "2023-02-28T04:10:00.896161967Z"
     description: Academic data repository
     digest: 813f950d8723360816dc31f6d67962f219fc456fb9f287811cc5736b5c7a9680
@@ -373,6 +389,23 @@ entries:
   solr:
   - apiVersion: v1
     appVersion: 4.10.4
+    created: "2023-06-08T09:54:24.048799167Z"
+    description: A helm chart to install solr
+    digest: 4891368c05a74eb7d7f24f7e240ae07a700083b98f3bdef84e58287993b6e5cf
+    home: http://lucene.apache.org/solr/
+    keywords:
+    - solr
+    maintainers:
+    - email: ian.thebridge@lucidworks.com
+      name: Ian Thebridge
+    name: solr
+    sources:
+    - https://gitbox.apache.org/repos/asf?p=lucene-solr.git
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/solr-2.0.0/solr-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v1
+    appVersion: 4.10.4
     created: "2020-11-18T04:50:43.149050839Z"
     description: A helm chart to install solr
     digest: f346b30f2d4cad4ca1d85cd1c98e300fc17b2f568c294cb8d98fbc077dcc7e4a
@@ -475,6 +508,26 @@ entries:
   zookeeper:
   - apiVersion: v1
     appVersion: 3.4.14
+    created: "2023-06-08T09:54:24.216942815Z"
+    description: A centralized service for maintaining configuration information,
+      naming, providing distributed synchronization, and providing group services
+      for distributed applications.
+    digest: c85e71c475d309b8e8c57a3adfa3891b5d14b2d3daca9c0cde0f445776dacc13
+    home: https://zookeeper.apache.org/
+    icon: https://bitnami.com/assets/stacks/zookeeper/img/zookeeper-stack-110x117.png
+    keywords:
+    - zookeeper
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    name: zookeeper
+    sources:
+    - https://github.com/bitnami/bitnami-docker-zookeeper
+    urls:
+    - https://github.com/MxBlu/charts/releases/download/zookeeper-3.0.0/zookeeper-3.0.0.tgz
+    version: 3.0.0
+  - apiVersion: v1
+    appVersion: 3.4.14
     created: "2020-11-16T00:40:32.962155952Z"
     description: A centralized service for maintaining configuration information,
       naming, providing distributed synchronization, and providing group services
@@ -493,4 +546,4 @@ entries:
     urls:
     - https://github.com/MxBlu/charts/releases/download/zookeeper-2.2.4/zookeeper-2.2.4.tgz
     version: 2.2.4
-generated: "2023-04-21T06:30:18.626205795Z"
+generated: "2023-06-08T09:54:24.217125206Z"
