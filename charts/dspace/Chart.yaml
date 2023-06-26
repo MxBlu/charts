@@ -1,7 +1,7 @@
 apiVersion: v1
 name: dspace
-version: 2.0.0
-appVersion: "6.3"
+version: 2.1.0
+appVersion: "7.5"
 description: Academic data repository
 keywords:
 - dspace

@@ -57,3 +57,14 @@ Return the Solr url from the config
 {{- $solrPort := (default 8080 .Values.solrPort) | toString -}}
 {{- printf "http:\\/\\/%s:%s\\/solr" $solrService $solrPort -}}
 {{- end -}}
+
+{{/*
+Return the Solr url from the config
+*/}}
+{{- define "dspace.health-url" -}}
+{{- if .Values.config.isDspace7 -}}
+{{- "/actuator/health" -}}
+{{- else -}}
+{{- "/xmlui/" -}}
+{{- end -}}
+{{- end -}}

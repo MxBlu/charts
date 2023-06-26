@@ -54,10 +54,6 @@ spec:
           # Replace default db connection settings with cluster ones
           sed -i 's/jdbc:postgresql:\/\/dspacedb:5432\/dspace/{{ template "dspace.pg-url" . }}/g' local.cfg
           sed -i 's/http:\/\/localhost:8080\/solr/{{ template "dspace.solr-url" . }}/g' local.cfg
-          {{ if .Values.config.isDspace7 }}
-          # Run DB migrations if we're in DSpace 7
-          /dspace/bin/dspace database migrate
-          {{- end -}}
           catalina.sh run &
           while ! tail -f /dspace/log/dspace.log ; do sleep 1 ; done
         env:
@@ -75,7 +71,7 @@ spec:
         livenessProbe:
           httpGet:
             scheme: {{ .Values.livenessProbe.scheme | default "HTTP" }}
-            path: {{ .Values.livenessProbe.path | default "/xmlui/" }}
+            path: {{ default (include "dspace.health-url" .) .Values.livenessProbe.path }}
             port: {{ .Values.service.port }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -85,7 +81,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: {{ .Values.readinessProbe.scheme | default "HTTP" }}
-            path: {{ .Values.readinessProbe.path | default "/xmlui/" }}
+            path: {{ default (include "dspace.health-url" .) .Values.readinessProbe.path }}
             port: {{ .Values.service.port }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}

@@ -8,7 +8,7 @@
 # DSpace image config
 image:
   repository: dspace/dspace
-  tag: dspace-6_x-jdk8
+  tag: dspace-7.5
   pullPolicy: Always
   # imagePullSecrets:
   #   - name: myRegistryKeySecretName
