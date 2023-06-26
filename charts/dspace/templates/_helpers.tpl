@@ -63,7 +63,7 @@ Return the Solr url from the config
 */}}
 {{- define "dspace.health-url" -}}
 {{- if .Values.config.isDspace7 -}}
-{{- "/actuator/health" -}}
+{{- "/server/actuator/health" -}}
 {{- else -}}
 {{- "/xmlui/" -}}
 {{- end -}}
